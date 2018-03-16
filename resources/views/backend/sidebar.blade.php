@@ -50,6 +50,19 @@
 								<b class="arrow"></b>
 							</li>
 							@endrole
+
+							@role('penulis')
+
+							<li class="">
+								<a href="{{ route('berita.index') }}">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Berita
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							@endrole
+
 						</ul>
 					</li>
 

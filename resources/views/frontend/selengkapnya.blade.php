@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>NewsFeed | Pages | Single Page</title>
+<title>Kabar Berita</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,12 +58,12 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav main_nav">
-          <li class="active"><a href="../index.html"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
+          <li class="active"><a href="{{url('/')}}"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Home</span></a></li>
            @php
                                     $kategori = App\Kategori::all();
                                     @endphp
                                     @foreach($kategori as $data)
-                                    <li><a href="{{url('/berita',$data->id)}}">{{$data->name}}</a></li>
+                                    <li><a href="{{url('/kategori',$data->id)}}">{{$data->name}}</a></li>
                                     @endforeach
         </ul>
       </div>
@@ -84,6 +84,7 @@
             <div class="single_page_content"> <img class="img-center" src="{{asset('img/'.$berita->cover)}}" width="200" height="150" alt="">
               <p>{!!$berita->isi_berita!!}</p>
             </div>
+            <div id="disqus_thread"></div>
           </div>
         </div>
       </div>
@@ -91,16 +92,18 @@
       <div class="col-lg-4 col-md-4 col-sm-4">
         <aside class="right_content">
           <div class="single_sidebar">
-            <h2><span>Popular Post</span></h2>
+            <h2><span>Berita Terkait</span></h2>
             <ul class="spost_nav">
             @php
-              $berita = App\Berita::all();
+              $berita = App\Berita::where('kategori_id','=',$berita->kategori_id)->where('id','!=',$berita->id)->get();
              @endphp
               @foreach($berita as $data)
               <li>
                 <div class="media wow fadeInDown"> <a href="single_page.html" class="media-left"> <img alt="" src="{{asset('img/'.$data->cover)}}"> </a>
-                  <div class="media-body"> <a href="{{url('/selengkapnya',$data->id)}}" class="catg_title"> {{$data->judul}}</a> </div>
+                  <div class="media-body"> <a href="{{url('/selengkapnya',$data->slug_judul)}}" class="catg_title"> {{$data->judul}}</a> </div>
                 </div>
+
+                
                 
               </li>
                @endforeach
@@ -125,6 +128,7 @@
       </div>
     </div>
   </section>
+
   <footer id="footer">
     <div class="footer_top">
       <div class="row">
@@ -142,7 +146,7 @@
                                    
             <ul class="tag_nav">
                @foreach($kategori as $data)
-              <li><a href="{{url('/berita',$data->id)}}">{{$data->name}}</a></li>
+              <li><a href="{{url('/kategori',$data->id)}}">{{$data->name}}</a></li>
           @endforeach
       </ul>
           </div>
@@ -161,13 +165,33 @@
     </div>
   </footer>
 </div>
-<script src="../assets/js/jquery.min.js"></script> 
-<script src="../assets/js/wow.min.js"></script> 
-<script src="../assets/js/bootstrap.min.js"></script> 
-<script src="../assets/js/slick.min.js"></script> 
-<script src="../assets/js/jquery.li-scroller.1.0.js"></script> 
-<script src="../assets/js/jquery.newsTicker.min.js"></script> 
-<script src="../assets/js/jquery.fancybox.pack.js"></script> 
-<script src="../assets/js/custom.js"></script>
+<script src="{{url('assets/js/jquery.min.js')}}"></script> 
+<script src="{{url('assets/js/wow.min.js')}}"></script> 
+<script src="{{url('assets/js/bootstrap.min.js')}}"></script> 
+<script src="{{url('assets/js/slick.min.js')}}"></script> 
+<script src="{{url('assets/js/jquery.li-scroller.1.0.js')}}"></script> 
+<script src="{{url('assets/js/jquery.newsTicker.min.js')}}"></script> 
+<script src="{{url('assets/js/jquery.fancybox.pack.js')}}"></script> 
+<script src="{{url('assets/js/custom.js')}}"></script>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://berita-1.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
 </body>
 </html>

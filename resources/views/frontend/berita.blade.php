@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>NewsFeed</title>
+<title>Kabar Berita</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,7 +63,7 @@
                                     $kategori = App\Kategori::all();
                                     @endphp
                                     @foreach($kategori as $data)
-                                    <li><a href="{{url('/berita',$data->id)}}">{{$data->name}}</a></li>
+                                    <li><a href="{{url('/kategori',$data->id)}}">{{$data->name}}</a></li>
                                     @endforeach
         </ul>
       </div>
@@ -99,7 +99,7 @@
                     <figure class="bsbig_fig"><img alt="" src="{{asset('img/'.$data->cover)}}" width="570" height="300"> <span class="overlay"></span> 
                       <figcaption><h4>{{$data->judul}}</h4> </figcaption>
                       <p>{!!str_limit($data->isi_berita,300)!!}</p>
-                      <footer class="btn btn-theme"><a href="{{url('/selengkapnya',$data->id)}}">Read More >></a></footer><br>
+                      <footer class="btn btn-theme"><a href="{{url('/selengkapnya',$data->slug_judul)}}">Read More >></a></footer><br>
                     </figure>
                   </li>
                 </ul>      
@@ -112,30 +112,16 @@
           <div class="single_sidebar">
             <h2><span>Popular Post</span></h2>
             <ul class="spost_nav">
-               @php
-              $populer = App\Berita::whereRaw('view = (select max(`view`) from beritas)')->first();
+              @php
+              $populer = DB::table('beritas')->orderBy('view','desc')->take(5)->get();
               @endphp
+              @foreach($populer as $data)
               <li>
-                <div class="media wow fadeInDown"> <a href="{{url('/selengkapnya',$populer->id)}}" class="media-left"> <img alt="" src="{{asset('img/'.$populer->cover)}}"> </a>
-                  <div class="media-body"> <a href="{{url('/selengkapnya',$populer->id)}}" class="catg_title"> {{$populer->judul}}</a> </div>
-                </div>
-                
-              </li>
-              <li>
-                <div class="media wow fadeInDown"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="images/post_img2.jpg"> </a>
-                  <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 2</a> </div>
+                <div class="media wow fadeInDown"> <a href="{{url('/selengkapnya',$data->slug_judul)}}" class="media-left"> <img alt="" src="{{asset('img/'.$data->cover)}}"> </a>
+                  <div class="media-body"> <a href="{{url('/selengkapnya',$data->slug_judul)}}" class="catg_title"> {{$data->judul}}</a> </div>
                 </div>
               </li>
-              <li>
-                <div class="media wow fadeInDown"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="images/post_img1.jpg"> </a>
-                  <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 3</a> </div>
-                </div>
-              </li>
-              <li>
-                <div class="media wow fadeInDown"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="images/post_img2.jpg"> </a>
-                  <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 4</a> </div>
-                </div>
-              </li>
+              @endforeach
             </ul>
           </div>
           <div class="single_sidebar">
@@ -197,7 +183,7 @@
                                    
             <ul class="tag_nav">
                @foreach($kategori as $data)
-              <li><a href="{{url('/berita',$data->id)}}">{{$data->name}}</a></li>
+              <li><a href="{{url('/kategori',$data->id)}}">{{$data->name}}</a></li>
           @endforeach
             </ul>
           </div>

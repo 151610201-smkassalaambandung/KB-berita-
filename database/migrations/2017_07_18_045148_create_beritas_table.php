@@ -20,6 +20,7 @@ class CreateBeritasTable extends Migration
             $table->text('isi_berita');
             $table->string('cover')->nullable();
             $table->integer('view')->nullable()->default('0');
+            $table->string('slug_judul');
             $table->timestamps();
             $table->foreign('kategori_id')->references('id')->on('kategoris')->onUpdate('cascade')->onDelete('cascade');
         });

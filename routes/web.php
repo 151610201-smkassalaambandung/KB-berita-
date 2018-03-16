@@ -22,6 +22,11 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','role:admin']],function(){
  Route::resource('kategoris','kategoriController');
  Route::resource('berita','BeritasController');
 });
+
+Route::group(['prefix'=>'admin','middleware'=>['auth','role:admin|penulis']],function(){
+ Route::resource('berita','BeritasController');
+});
+
 Route::get('/','FrontendController@index');
-Route::get('/berita/{id}','FrontendController@filter');
- Route::get('/selengkapnya/{id}','FrontendController@selengkapnya');
+Route::get('/kategori/{id}','FrontendController@filter');
+Route::get('/selengkapnya/{slug_judul}','FrontendController@selengkapnya');

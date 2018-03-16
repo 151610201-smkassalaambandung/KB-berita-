@@ -20,6 +20,15 @@
 
 @extends('layouts.master')
 @section('content')
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" />
+
+  <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
+  
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
@@ -67,6 +76,11 @@
 	 					<img id="showgambar" style="max-width:250px;max-height:250px;float:left;" />
 						<input type="file" name="cover" id="inputgambar" class="form-group"></div>
 					</div>
+
+					<!-- {!! Form::label('tags','Tags *',['class'=>'col-md-2']) !!}
+                                <div class="col-md-8">
+                                  <input data-role="tagsinput" type="text" name="tags" class="form-control">
+                                </div> -->
 
 					<div class="form-group">
 						<div class="col-md-4 col-md-offset-2">

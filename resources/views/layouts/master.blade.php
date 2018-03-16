@@ -66,7 +66,7 @@
 					<a href="" class="navbar-brand">
 						<small>
 							<i class="fa fa-leaf"></i>
-							Admin Berita
+							{{ Auth::user()->name }}
 						</small>
 					</a>
 				</div>

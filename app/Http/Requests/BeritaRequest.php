@@ -27,7 +27,7 @@ class BeritaRequest extends FormRequest
             'judul'=>'required|unique:beritas,judul',
             'kategori_id'=>'required|exists:kategoris,id',
             'isi_berita'=>'required|unique:beritas,isi_berita',
-            'cover'=>'image|max:2048'
+            'cover'=>'image|max:2048|mimes:jpeg,png,jpg,gif,svg'
         ];
     }
 }

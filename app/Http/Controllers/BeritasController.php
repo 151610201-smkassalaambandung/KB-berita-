@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\BeritaRequest;
 use App\Http\Requests\UpdateBeritaRequest;
+use Illuminate\Support\Str;
 class BeritasController extends Controller
 {
     /**
@@ -19,7 +20,7 @@ class BeritasController extends Controller
      */
     public function index(Request $request, Builder $htmlBuilder)
     {
-        $berita = Berita::latest()->paginate(10);
+        $berita = Berita::latest()->paginate(5);
         return view('berita.index', compact('berita'));
         // if ($request->ajax()){
         //     $beritas = Berita::with('kategori');
@@ -64,23 +65,24 @@ class BeritasController extends Controller
      */
     public function store(BeritaRequest $request)
     {
-       
-        $berita = Berita::create($request->except('cover'));
-        if($request->hasFile('cover')){
+        $berita=new Berita;
+        $berita->slug_judul=Str::slug($request->get('judul'));
+        $berita->kategori_id=$request->kategori_id;
+        $berita->isi_berita=$request->isi_berita;
+        $berita->judul=$request->judul;
+
+       if($request->hasFile('cover')){
             $uploaded_cover=$request->file('cover');
             $extension=$uploaded_cover->getClientOriginalExtension();
-            $filename=md5(time()).'.'.$extension;
-            $destinationPath=public_path().DIRECTORY_SEPARATOR.'img';
+            $filename= str_random(6).'.'.$extension;
+            $destinationPath=public_path().'/img';
             $uploaded_cover->move($destinationPath,$filename);
             $berita->cover = $filename;
-            $berita->save();
         }
-        Session::flash("flash_notification",[
-            "level"=>"success",
-            "message"=>"Berhasil menyimpan $berita->title"
-            ]);
+
+        $berita->save();
         return redirect()->route('berita.index');
-        
+
     }
 
     /**
