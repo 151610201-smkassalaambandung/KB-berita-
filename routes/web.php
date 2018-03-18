@@ -30,3 +30,7 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','role:admin|penulis']],fun
 Route::get('/','FrontendController@index');
 Route::get('/kategori/{id}','FrontendController@filter');
 Route::get('/selengkapnya/{slug_judul}','FrontendController@selengkapnya');
+
+Route::group(['middleware'=>'cors'],function(){
+ 	Route::get('/listdata','ApiController@listdata');
+ });
